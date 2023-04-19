@@ -30,7 +30,7 @@ data class Views (
 )
 
 object WallService {
-    var posts = emptyArray<Post>()
+    private var posts = emptyArray<Post>()
 
     fun clear() {
         posts = emptyArray()
@@ -38,8 +38,7 @@ object WallService {
     }
 
     fun add(post: Post): Post {
-        val id = posts.size + 1
-        posts += post.copy(id = id)
+        posts += post.copy(id = posts.size + 1)
         return post
     }
 
@@ -50,6 +49,6 @@ object WallService {
                 return true
             }
         }
-        return true
+        return false
     }
 }
