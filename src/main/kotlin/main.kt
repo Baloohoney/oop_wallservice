@@ -34,12 +34,11 @@ object WallService {
 
     fun clear() {
         posts = emptyArray()
-        val id = 0
     }
 
     fun add(post: Post): Post {
         posts += post.copy(id = posts.size + 1)
-        return post
+        return posts.last()
     }
 
     fun update(post: Post): Boolean {
