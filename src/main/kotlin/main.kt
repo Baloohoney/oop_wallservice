@@ -162,8 +162,3 @@ object WallService {
         return comment
     }
 }
-
-fun main() {
-    WallService.add(Post())
-    println (WallService.createComment(postId = 2, comment = Comment()))
-}
