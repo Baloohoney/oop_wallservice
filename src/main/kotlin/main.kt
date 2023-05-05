@@ -1,3 +1,5 @@
+import java.util.Stack
+
 data class Post(
     val id: Int = 0,
     val ownerId: Int = 1,
@@ -91,11 +93,46 @@ data class PostSource(
     val url: String
 )
 
+data class Comment(
+    val id: Int = 1,
+    val fromId: Int = 1,
+    val date: Int = 10101010,
+    val text: String = "content",
+    val donat: Donat = Donat(1, true),
+    val replyToUser: Int? = null,
+    val replyToComment: Int? = null,
+    val parentsStack: Array<Int> = arrayOf(),
+    val attachments: Array<Attachment> = arrayOf(
+        PhotoAttachment(),
+        VideoAttachment(),
+        AudioAttachment(),
+        DocAttachment(),
+        UrlAttachment()
+    ),
+    val thread: Thread = Thread(1, canPost = false, groupsCanPost = true, showReplyButton = true)
+)
+
+data class Donat(
+    val count: Int,
+    val canDonate: Boolean
+)
+
+data class Thread(
+    val count: Int,
+    val canPost: Boolean,
+    val groupsCanPost: Boolean,
+    val showReplyButton: Boolean
+)
+
+class PostNotFoundException(message: String) : Exception(message)
+
 object WallService {
     private var posts = emptyArray<Post>()
+    private var comments = emptyArray<Comment>()
 
     fun clear() {
         posts = emptyArray()
+        comments = emptyArray()
     }
 
     fun add(post: Post): Post {
@@ -112,4 +149,21 @@ object WallService {
         }
         return false
     }
+
+    fun createComment(postId: Int, comment: Comment): Comment {
+        for (post in posts) {
+            if (post.id == postId) {
+                comments += comment
+                return comments.last()
+            } else {
+                throw PostNotFoundException("Post not found")
+            }
+        }
+        return comment
+    }
+}
+
+fun main() {
+    WallService.add(Post())
+    println (WallService.createComment(postId = 2, comment = Comment()))
 }

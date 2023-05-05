@@ -1,8 +1,10 @@
+import WallService.createComment
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.junit.Assert.assertThrows
 
 class WallServiceTest {
 
@@ -32,5 +34,21 @@ class WallServiceTest {
         val postAdded = WallService.add(post)
         val result = WallService.update(post)
         assertFalse(result)
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrow() {
+        val post = Post()
+        val postAdded = WallService.add(post)
+        val expectedComment = createComment(postId = 100, comment = Comment())
+    }
+
+    @Test
+    fun testCreateComment() {
+        val post = Post()
+        val postAdded = WallService.add(post)
+        val comment = Comment()
+        val commentAdded = createComment(postId = 1, comment = comment)
+        assertEquals(comment, commentAdded)
     }
 }
