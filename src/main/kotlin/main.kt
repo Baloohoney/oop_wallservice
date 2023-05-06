@@ -152,10 +152,9 @@ object WallService {
         for (i in posts.indices) {
             if (posts[i].id == postId) {
                 comments += comment
-            } else {
-                throw PostNotFoundException("Post not found")
+                return comments.last()
             }
         }
-        return comments.last()
+        throw PostNotFoundException("Post not found")
     }
 }
