@@ -1,5 +1,3 @@
-import java.util.Stack
-
 data class Post(
     val id: Int = 0,
     val ownerId: Int = 1,
@@ -154,11 +152,10 @@ object WallService {
         for (i in posts.indices) {
             if (posts[i].id == postId) {
                 comments += comment
-                return comments.last()
             } else {
                 throw PostNotFoundException("Post not found")
             }
         }
-        return comment
+        return comments.last()
     }
 }
