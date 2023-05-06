@@ -151,8 +151,8 @@ object WallService {
     }
 
     fun createComment(postId: Int, comment: Comment): Comment {
-        for (post in posts) {
-            if (post.id == postId) {
+        for (i in posts.indices) {
+            if (posts[i].id == postId) {
                 comments += comment
                 return comments.last()
             } else {
